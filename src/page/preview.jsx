@@ -12,6 +12,7 @@ import {
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons";
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 const tag = [
   "08:00-10:00",
   "10:00-12:00",
@@ -21,7 +22,14 @@ const tag = [
   "18:00-20:00",
   "20:00-22:00",
 ];
-
+const m = new Map([
+  ["buildOne", "一"],
+  ["buildTwo", "二"],
+  ["buildThree", "三"],
+  ["buildFour", "四"],
+  ["buildFive", "五"],
+  ["buildSix", "六"],
+]);
 //表头
 const columns = [
   {
@@ -88,11 +96,30 @@ const columns = [
 
 const { Title } = Typography;
 const Preview = () => {
+  // 拿到parms中的建筑编号数据
+  let params = useParams();
+  console.log("parms:", params);
   const [page, setPage] = useState(1);
   //从store拿数据并转换
+
   let room = useSelector((store) => {
-    return store.classroom;
+    switch (params.build) {
+      case "buildOne":
+        //console.log(store.classroom.buildOne);
+        return store.classroom.buildOne;
+      case "buildTwo":
+        return store.classroom.buildTwo;
+      case "buildThree":
+        return store.classroom.buildThree;
+      case "buildFour":
+        return store.classroom.buildFour;
+      case "buildFive":
+        return store.classroom.buildFive;
+      case "buildSix":
+        return store.classroom.buildSix;
+    }
   });
+  // 初始化为第一页
   const [newRoom1, setnewRoom1] = useState(
     JSON.parse(JSON.stringify(room.one))
   );
@@ -118,7 +145,7 @@ const Preview = () => {
         setnewRoom1(JSON.parse(JSON.stringify(room.six)));
         break;
     }
-  }, [page]);
+  }, [page, params]);
 
   newRoom1.map((item) => {
     let count = 0;
@@ -142,7 +169,7 @@ const Preview = () => {
       <Row>
         <Col span={16}>
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <Title>一号教学楼预约总览</Title>
+            <Title>{m.get(params.build)}号教学楼预约总览</Title>
           </div>
           <Row gutter={10}>
             <Col span={8}>

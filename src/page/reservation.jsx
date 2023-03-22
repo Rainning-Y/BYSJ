@@ -16,6 +16,7 @@ import {
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeTimer } from "../store/features/classroom";
+import { useParams } from "react-router-dom";
 const { TextArea } = Input;
 
 const { Title } = Typography;
@@ -53,20 +54,44 @@ const CardCalendar = () => {
 };
 
 const Reserve = () => {
+  // 拿到parms中的建筑编号数据
+  let params = useParams();
   const [time, settime] = useState([]);
   const [date, setdate] = useState();
-  const [selectId,setSelectId]=useState()
-  const dispatch = useDispatch()
+  const [selectId, setSelectId] = useState();
+  const [current3, setCurrent3] = useState("buildOne");
+  const [page, setPage] = useState(1);
+  const changePage = (page) => {
+    setPage(page);
+  };
+  const dispatch = useDispatch();
   let searchTime = [0, 0, 0, 0, 0, 0, 0];
   const changeTime = (value) => {
     //console.log(`selected ${value}`);
     settime(value);
   };
   // useSelect获取classroom数据并转换
+
   let room = useSelector((store) => {
-    return store.classroom;
+    switch (current3) {
+      case "buildOne":
+        return store.classroom.buildOne;
+      case "buildTwo":
+        //console.log(store.cl assroom.buildTwo);
+        return store.classroom.buildTwo;
+      case "buildThree":
+        return store.classroom.buildThree;
+      case "buildFour":
+        return store.classroom.buildFour;
+      case "buildFive":
+        return store.classroom.buildFive;
+      case "buildSix":
+        return store.classroom.buildSix;
+    }
   });
-  let newRoom1 = JSON.parse(JSON.stringify(room.one));
+  const [newRoom1, setnewRoom1] = useState(
+    JSON.parse(JSON.stringify(room.one))
+  );
   //console.log(newRoom1)
   //转换时间段函数
   const selectTime = (time) => {
@@ -116,7 +141,7 @@ const Reserve = () => {
     return classroomN;
   };
   //搜索例子
-  search([1, 1, 0, 0, 0, 0, 0], newRoom1);
+  //search([1, 1, 0, 0, 0, 0, 0], newRoom1);
   //预约替换函数
   const render1 = () => (
     <div>
@@ -151,30 +176,28 @@ const Reserve = () => {
     //导航栏选项
     const items = [
       {
-        label: "一号教学楼 One",
-        key: "one",
+        label: "一号教学楼",
+        key: "buildOne",
       },
       {
-        label: "二号教学楼 Two",
-        key: "two",
-      },
-
-      {
-        label: "三号教学楼 Three",
-        key: "three",
+        label: "二号教学楼",
+        key: "buildTwo",
       },
       {
-        label: "四号教学楼 four",
-        key: "four",
+        label: "三号教学楼",
+        key: "buildThree",
       },
       {
-        label: "五号教学楼 five",
-        key: "five",
+        label: "四号教学楼",
+        key: "buildFour",
       },
-
       {
-        label: "六号教学楼 six",
-        key: "six",
+        label: "五号教学楼",
+        key: "buildFive",
+      },
+      {
+        label: "六号教学楼",
+        key: "buildSix",
       },
     ];
     // 表格表头
@@ -196,7 +219,7 @@ const Reserve = () => {
         render: (_, record) => (
           <Button
             onClick={() => {
-              setSelectId(record.id)
+              setSelectId(record.id);
               console.log(record.id), next();
             }}
           >
@@ -205,17 +228,45 @@ const Reserve = () => {
         ),
       },
     ];
-    const [current3, setCurrent3] = useState("one");
+
     useEffect(() => {
-      let reRoom = [];
-      search(selectTime(time), newRoom1).map((item) => {
-        if (item != undefined) {
-          reRoom.push(item);
-        }
-      });
-      console.log("change", reRoom);
-      setDataSouce(reRoom);
-    }, [time]);
+      const createNewDate = (value) => {
+        let reRoom = [];
+        search(selectTime(time), value).map((item) => {
+          if (item != undefined) {
+            reRoom.push(item);
+          }
+        });
+        console.log("change", reRoom);
+        setDataSouce(reRoom);
+      };
+      switch (page) {
+        case 1:
+          setnewRoom1(JSON.parse(JSON.stringify(room.one)))
+          createNewDate(room.one);
+          break;
+        case 2:
+          setnewRoom1(JSON.parse(JSON.stringify(room.two)))
+          createNewDate(room.two);
+          break;
+        case 3:
+          setnewRoom1(JSON.parse(JSON.stringify(room.three)))
+          createNewDate(room.three);
+          break;
+        case 4:
+          setnewRoom1(JSON.parse(JSON.stringify(room.four)))
+          createNewDate(room.four);
+          break;
+        case 5:
+          setnewRoom1(JSON.parse(JSON.stringify(room.five)))
+          createNewDate(room.five);
+          break;
+        case 6:
+          setnewRoom1(JSON.parse(JSON.stringify(room.six)))
+          createNewDate(room.six);
+          break;
+      }
+    }, [time, current3, page]);
     //
 
     const onClick = (e) => {
@@ -242,7 +293,12 @@ const Reserve = () => {
               size="small"
               columns={columns}
               dataSource={dataSource}
-              //pagination={{ pageSize: 6, total: 36 ,onChange:(v)=>changePage(v),current:page}}
+              pagination={{
+                pageSize: 6,
+                total: 36,
+                onChange: (v) => changePage(v),
+                current: page,
+              }}
             />
           </Col>
         </Row>
@@ -253,17 +309,16 @@ const Reserve = () => {
     return (
       <div>
         <Row style={{ display: "flex", justifyContent: "center" }}>
-        <Title level={2}>选择您想预约的日期与时间段</Title>
-      </Row>
-      <TextArea
-        showCount
-        maxLength={100}
-        style={{ height: 120, marginBottom: 24 }}
-        onChange={()=>{}}
-        placeholder="can resize"
-      />
+          <Title level={2}>选择您想预约的日期与时间段</Title>
+        </Row>
+        <TextArea
+          showCount
+          maxLength={100}
+          style={{ height: 120, marginBottom: 24 }}
+          onChange={() => {}}
+          placeholder="can resize"
+        />
       </div>
-      
     );
   };
   const steps = [
@@ -277,7 +332,7 @@ const Reserve = () => {
     },
     {
       title: "Last",
-      content:render3(),
+      content: render3(),
     },
   ];
   //
@@ -322,21 +377,22 @@ const Reserve = () => {
           <Button
             type="primary"
             onClick={() => {
-              let select=selectTime(time)
-              let date=newRoom1
-             date.map((item)=>{
-                if(item.id===selectId){
-                  for(let i=0;i<7;i++){
-                    if(select[i]===1){
-                      item.usedtime[i]=1
+              let select = selectTime(time);
+              let date = newRoom1;
+              date.map((item) => {
+                if (item.id === selectId) {
+                  for (let i = 0; i < 7; i++) {
+                    if (select[i] === 1) {
+                      item.usedtime[i] = 1;
                     }
                   }
                 }
-              })
-              console.log('searchtime',select,date)
-              dispatch(changeTimer({value:date}))
-              
-              message.success("Processing complete!")}}
+              });
+              console.log("searchtime", select, date);
+              dispatch(changeTimer({ value: date,build:current3,ceng:page }));
+
+              message.success("Processing complete!");
+            }}
           >
             Done
           </Button>

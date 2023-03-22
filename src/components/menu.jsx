@@ -17,23 +17,23 @@ const items = [
               },
               {
                 label: "二号教学楼",
-                key: "setting:2",
+                key: "buildTwo",
               },
               {
                 label: "三号教学楼",
-                key: "setting:3",
+                key: "buildThree",
               },
               {
                 label: "四号教学楼",
-                key: "setting:4",
+                key: "buildFour",
               },
               {
                 label: "五号教学楼",
-                key: "setting:5",
+                key: "buildFive",
               },
               {
                 label: "六号教学楼",
-                key: "setting:6",
+                key: "buildSix",
               },
             ],
           },
@@ -55,7 +55,10 @@ const homeMenu = () => {
   const onClick = (e) => {
     console.log("click ", e);
     setCurrent(e.key);
-    navigate(`/${e.key}`)
+    if(e.key==="reservation"){
+      navigate(`/index/reservation`)
+    }else{navigate(`/index/preview/${e.key}`)}
+   
   };
   return (
     <Menu
