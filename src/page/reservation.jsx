@@ -56,9 +56,14 @@ const CardCalendar = () => {
 const Reserve = () => {
   // 拿到parms中的建筑编号数据
   let params = useParams();
+  //第三步预约理由
+  const [preText,setPreText]=useState('')
+  //选择的时间段
   const [time, settime] = useState([]);
   const [date, setdate] = useState();
+  //选择的教室id
   const [selectId, setSelectId] = useState();
+  //选择的教学楼号
   const [current3, setCurrent3] = useState("buildOne");
   const [page, setPage] = useState(1);
   const changePage = (page) => {
@@ -67,7 +72,7 @@ const Reserve = () => {
   const dispatch = useDispatch();
   let searchTime = [0, 0, 0, 0, 0, 0, 0];
   const changeTime = (value) => {
-    //console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
     settime(value);
   };
   // useSelect获取classroom数据并转换
@@ -309,14 +314,15 @@ const Reserve = () => {
     return (
       <div>
         <Row style={{ display: "flex", justifyContent: "center" }}>
-          <Title level={2}>选择您想预约的日期与时间段</Title>
+          <Title level={2}>填写您的预约理由</Title>
         </Row>
         <TextArea
           showCount
           maxLength={100}
-          style={{ height: 120, marginBottom: 24 }}
-          onChange={() => {}}
-          placeholder="can resize"
+          style={{ height: 280, marginBottom: 24 }}
+          onChange={(v) => {setPreText(v.target.value)}}
+          value={preText}
+          placeholder="理由尽可能详细"
         />
       </div>
     );

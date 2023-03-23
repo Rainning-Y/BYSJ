@@ -7,6 +7,7 @@ import Preview from "./page/preview";
 import Reserve from "./page/reservation";
 import Page from "./page/page";
 import Login from "./page/login";
+import MyRoom from "./page/myRoom";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
           <Route path="reservation" element={<Reserve />}></Route>
           <Route path="preview" element={<Preview />}></Route>
           <Route path="preview/:build" element={<Preview />}></Route>
+          <Route path="myroom" element={<MyRoom />}></Route>
         </Route>
       </Routes>
     </div>

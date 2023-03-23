@@ -5,7 +5,7 @@ const items = [
     {
         label: "Navigation Three - Submenu",
         key: "SubMenu",
-    
+     
         children: [
           {
             type: "group",
@@ -44,25 +44,28 @@ const items = [
     key: "reservation",
   },
   {
-    label: "Navigation Two",
-    key: "app",
+    label: "我的预约",
+    key: "myroom",
   },
   
 ];
 const homeMenu = () => {
   let navigate = useNavigate();
-  const [current, setCurrent] = useState("mail");
+  const [current, setCurrent] = useState("buildOne");
   const onClick = (e) => {
     console.log("click ", e);
     setCurrent(e.key);
     if(e.key==="reservation"){
       navigate(`/index/reservation`)
+    }else if(e.key==="myroom"){
+      navigate(`/index/myroom`)
     }else{navigate(`/index/preview/${e.key}`)}
    
   };
   return (
     <Menu
       onClick={onClick}
+      defaultOpenKeys={['SubMenu']}
       selectedKeys={[current]}
       mode="inline"
       items={items}

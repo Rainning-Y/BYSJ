@@ -4,16 +4,21 @@ import { Col, Row, Card, Button, Typography } from "antd";
 import { Routes, Route, Link, Outlet } from "react-router-dom";
 import Menu from "../components/menu";
 import { useNavigate } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 const { Title } = Typography;
 
 function Page() {
-    let navigate = useNavigate();
+  let navigate = useNavigate();
+  let user = useSelector((store) => {
+    console.log("用户数据", store.user);
+    return store.user;
+  });
   return (
     <div>
       <Row>
         <Col span={2} style={{ height: "70px" }}>
-          <button
+          {/* <button
             onClick={() => {
               axios({
                 method: "post",
@@ -44,23 +49,39 @@ function Page() {
             }}
           >
             get
-          </button>
+          </button> */}
         </Col>
         <Col span={18} style={{ fontSize: "40px", textAlign: "center" }}>
           <Title>欢迎来到信院教室预约系统</Title>
         </Col>
         <Col span={4}>
-          <div
-            style={{
-              position: "relative",
-              left: "70%",
-              top: "45%",
-              transform: "translate(-50%,-50%)",
-            }}
-          >
-            <Button style={{ marginRight: "20px" }} onClick={()=>navigate('/login')} >登陆</Button>
-            <Button>注册</Button>
-          </div>
+          {user.isLogin ? (
+            <div>
+              <Button
+                style={{ marginRight: "20px" }}
+                
+              >
+                {`欢迎您${user.user.userName}`}
+              </Button>
+            </div>
+          ) : (
+            <div
+              style={{
+                position: "relative",
+                left: "70%",
+                top: "45%",
+                transform: "translate(-50%,-50%)",
+              }}
+            >
+              <Button
+                style={{ marginRight: "20px" }}
+                onClick={() => navigate("/login")}
+              >
+                登陆
+              </Button>
+              <Button>注册</Button>
+            </div>
+          )}
         </Col>
       </Row>
       <Row>

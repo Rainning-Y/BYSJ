@@ -213,9 +213,9 @@ const Preview = () => {
             extra={<a href="#">More</a>}
             style={{ height: "210px", marginLeft: "10px" }}
           >
+            <p>这里是</p>
             <p>Card content</p>
-            <p>Card content</p>
-            <p>Card content</p>
+            <p>在右边</p>
           </Card>
         </Col>
       </Row>
