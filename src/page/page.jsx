@@ -5,10 +5,12 @@ import { Routes, Route, Link, Outlet } from "react-router-dom";
 import Menu from "../components/menu";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { loginUser } from "../store/features/user";
 import axios from "axios";
 const { Title } = Typography;
 
 function Page() {
+  const dispatch=useDispatch()
   let navigate = useNavigate();
   let user = useSelector((store) => {
     console.log("用户数据", store.user);
@@ -62,6 +64,24 @@ function Page() {
                 
               >
                 {`欢迎您${user.user.userName}`}
+              </Button>
+              <Button
+                style={{ marginRight: "20px" }}
+                onClick={()=>{
+                  dispatch(
+                    loginUser({
+                      isLogin: false,
+                      isAdmain:false,
+                      value: {  
+                        userName: "notLogin",
+                        studentId: "2019110225",
+                        sex: true,
+                      },
+                    })
+                  );
+                }}
+              >
+                退出登录
               </Button>
             </div>
           ) : (

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   isLogin: false,
+  isAdmain:false,
   user: {
     userName: "jack",
     studentId: "2019110225",
@@ -19,6 +20,7 @@ export const user = createSlice({
     loginUser: (state, { payload }) => {
       console.log("loginUser", payload);
       state.isLogin=payload.isLogin
+      state.isAdmain=payload.isAdmain
       state.user = payload.value;
     },
     // 定义一个减的方法

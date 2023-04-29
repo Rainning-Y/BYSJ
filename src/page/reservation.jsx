@@ -17,6 +17,7 @@ import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { changeTimer } from "../store/features/classroom";
 import { useParams } from "react-router-dom";
+import { addReservation } from "../store/features/MyReservation";
 const { TextArea } = Input;
 
 const { Title } = Typography;
@@ -54,6 +55,7 @@ const CardCalendar = () => {
 };
 
 const Reserve = () => {
+  const user=useSelector((store)=>store.user.user)
   // 拿到parms中的建筑编号数据
   let params = useParams();
   //第三步预约理由
@@ -396,7 +398,7 @@ const Reserve = () => {
               });
               console.log("searchtime", select, date);
               dispatch(changeTimer({ value: date,build:current3,ceng:page }));
-
+              dispatch(addReservation({value: {id:selectId,build:current3,time:time,text:preText,user:user.userName,review:"正在审核"}}));
               message.success("Processing complete!");
             }}
           >

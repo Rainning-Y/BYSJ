@@ -175,7 +175,7 @@ const Preview = () => {
             <Col span={8}>
               <Card bordered={false} style={{ height: "118px" }}>
                 <Statistic
-                  title="Active"
+                  title="预约增加量"
                   value={11.28}
                   precision={2}
                   valueStyle={{
@@ -189,7 +189,7 @@ const Preview = () => {
             <Col span={8}>
               <Card bordered={false} style={{ height: "118px" }}>
                 <Statistic
-                  title="Idle"
+                  title="教室空余量"
                   value={9.3}
                   precision={2}
                   valueStyle={{
@@ -209,13 +209,13 @@ const Preview = () => {
         </Col>
         <Col span={8}>
           <Card
-            title="Default size card"
+            title="信息学院公告栏"
             extra={<a href="#">More</a>}
             style={{ height: "210px", marginLeft: "10px" }}
           >
-            <p>这里是</p>
-            <p>Card content</p>
-            <p>在右边</p>
+            <p>今日图书馆暂不开放预约</p>
+            <p>五一摇滚音乐节等待同学们参加</p>
+            <p>若预约信息半日内未更新请联系管理员:1993545xxxx</p>
           </Card>
         </Col>
       </Row>

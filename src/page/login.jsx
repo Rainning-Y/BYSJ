@@ -1,4 +1,4 @@
-import { Card, Row, Col, Input, Space, Button, Modal } from "antd";
+import { Card, Row, Col, Input, Space, Button, Modal,Carousel,Image } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
@@ -17,6 +17,8 @@ const tabList = [
 const Login = () => {
   let dispatch = useDispatch();
   let navigate = useNavigate();
+  const [name,setName]=useState("")
+  const [password,setPassword]=useState("")
   const [activeTabKey1, setActiveTabKey1] = useState("tab1");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
@@ -44,8 +46,8 @@ const Login = () => {
             display: "flex",
           }}
         >
-          <Input type="text" addonBefore="账号:" />
-          <Input type="text" addonBefore="密码:" />
+          <Input type="text" addonBefore="账号:" value={name} onChange={(e)=>{setName(e.target.value)}}/>
+          <Input type="password" addonBefore="密码:" />
           <Button
             type="primary"
             onClick={() => {
@@ -53,8 +55,9 @@ const Login = () => {
               dispatch(
                 loginUser({
                   isLogin: true,
-                  value: {
-                    userName: "jackandRose",
+                  isAdmain:name==="admain"?true:false,
+                  value: {  
+                    userName: name,
                     studentId: "2019110225",
                     sex: true,
                   },
@@ -69,10 +72,41 @@ const Login = () => {
     ),
     tab2: <p>content2</p>,
   };
+  const contentStyle = {
+    margin: "80px 20px 20px 20px",
+    height: '285px',
+    color: '#fff',
+    lineHeight: '160px',
+    textAlign: 'center',
+    background: '#364d79',
+  };
   return (
     <Row>
-      <Col span={14}></Col>
-      <Col span={10}>
+      <Col span={16}>
+      <Carousel >
+      <div>
+        <h3 style={contentStyle}>
+            <Image src="https://www.jzci.edu.cn/images/zhuye/2022-12-26d.jpg"></Image>
+        </h3>
+      </div>
+      <div>
+        <h3 style={contentStyle}>
+        <Image src="https://www.jzci.edu.cn/images/zhuye/2020-4-29b.jpg"></Image>
+        </h3>
+      </div>
+      <div>
+        <h3 style={contentStyle}>
+        <Image src="https://www.jzci.edu.cn/images/zhuye/2020-4-29b.jpg"></Image>
+        </h3>
+      </div>
+      <div>
+        <h3 style={contentStyle}>
+        <Image src="https://www.jzci.edu.cn/images/zhuye/2020-4-29b.jpg"></Image>
+        </h3>
+      </div>
+    </Carousel>
+      </Col>
+      <Col span={8}>
         <Card
           style={{
             position: "relative",
