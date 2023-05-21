@@ -331,15 +331,15 @@ const Reserve = () => {
   };
   const steps = [
     {
-      title: "First",
+      title: "第一步",
       content: render1(),
     },
     {
-      title: "Second",
+      title: "第二步",
       content: render2(),
     },
     {
-      title: "Last",
+      title: "第三步",
       content: render3(),
     },
   ];
@@ -378,7 +378,7 @@ const Reserve = () => {
       >
         {current < steps.length - 1 && (
           <Button type="primary" onClick={() => next()}>
-            Next
+            继续
           </Button>
         )}
         {current === steps.length - 1 && (
@@ -399,10 +399,10 @@ const Reserve = () => {
               console.log("searchtime", select, date);
               dispatch(changeTimer({ value: date,build:current3,ceng:page }));
               dispatch(addReservation({value: {id:selectId,build:current3,time:time,text:preText,user:user.userName,review:"正在审核"}}));
-              message.success("Processing complete!");
+              message.success("发送预约请求成功，请等待管理员审核!");
             }}
           >
-            Done
+            完成
           </Button>
         )}
         {current > 0 && (
@@ -412,7 +412,7 @@ const Reserve = () => {
             }}
             onClick={() => prev()}
           >
-            Previous
+            上一步
           </Button>
         )}
       </div>

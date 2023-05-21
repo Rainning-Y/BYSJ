@@ -1,8 +1,18 @@
-import { Card, Row, Col, Input, Space, Button, Modal } from "antd";
+import { Card, Row, Col, Input, Space, Button, Modal,Tag } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { addReservation } from "../store/features/MyReservation";
+const tag = [
+  "08:00-10:00",
+  "10:00-12:00",
+  "12:00-14:00",
+  "14:00-16:00",
+  "16:00-18:00",
+  "18:00-20:00",
+  "20:00-22:00",
+];
+let count=0
 const Manage = () => {
   const dispatch = useDispatch();
   let user = useSelector((store) => store.user.user);
@@ -14,7 +24,7 @@ const Manage = () => {
   console.log(Object.values(rooms));
   return (
     <div>
-      <Card title={`${user.userName}的预约`}>
+      <Card title={`预约管理`}>
         {rooms.map((item, index) => {
           return (
             <Card
@@ -67,7 +77,16 @@ const Manage = () => {
             >
               <Row>
                 <Col span={8}>预约状态：{item.review}</Col>
-                <Col span={8}>预约时间段：...</Col>
+                <Col span={8}>
+                {item.time.map((e) => {
+                      count++
+                      return (
+                        <Tag color="geekblue" key={count}>
+                          {tag[e-1]}
+                        </Tag>
+                      );
+                    })}
+                </Col>
                 <Col span={8}>预约人：{item.user}</Col>
               </Row>
               <Row>

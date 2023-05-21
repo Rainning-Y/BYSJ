@@ -9,7 +9,7 @@ const homeMenu = () => {
     if (user.isAdmain) {
       return [
         {
-          label: "Navigation Three - Submenu",
+          label: "可预约教学楼列表",
           key: "SubMenu",
 
           children: [
@@ -57,7 +57,7 @@ const homeMenu = () => {
     } else {
       return [
         {
-          label: "Navigation Three - Submenu",
+          label: "可预约教学楼列表",
           key: "SubMenu",
 
           children: [
@@ -110,7 +110,7 @@ const homeMenu = () => {
   };
   const [items, setitems] = useState([
     {
-      label: "Navigation Three - Submenu",
+      label: "可预约教学楼列表",
       key: "SubMenu",
 
       children: [
@@ -160,7 +160,7 @@ const homeMenu = () => {
     if (user.isAdmain===false) {
       setitems([
         {
-          label: "Navigation Three - Submenu",
+          label: "可预约教学楼列表",
           key: "SubMenu",
 
           children: [
@@ -208,7 +208,7 @@ const homeMenu = () => {
     } else {
       setitems([
         {
-          label: "Navigation Three - Submenu",
+          label: "可预约列表",
           key: "SubMenu",
 
           children: [

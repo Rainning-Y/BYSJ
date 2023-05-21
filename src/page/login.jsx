@@ -1,8 +1,10 @@
-import { Card, Row, Col, Input, Space, Button, Modal,Carousel,Image } from "antd";
+import { Card, Row, Col, Input, Space, Button, Modal, Carousel, Image } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { loginUser } from "../store/features/user";
+import axios from 'axios';
+
 const tabList = [
   {
     key: "tab1",
@@ -17,15 +19,15 @@ const tabList = [
 const Login = () => {
   let dispatch = useDispatch();
   let navigate = useNavigate();
-  const [name,setName]=useState("")
-  const [password,setPassword]=useState("")
+  const [name, setName] = useState("")
+  const [password, setPassword] = useState("")
   const [activeTabKey1, setActiveTabKey1] = useState("tab1");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const showModal = () => {
     setIsModalOpen(true);
     setTimeout(() => {
       navigate("/index");
-    }, 300);
+    }, 3000);
   };
   const handleOk = () => {
     setIsModalOpen(false);
@@ -46,17 +48,29 @@ const Login = () => {
             display: "flex",
           }}
         >
-          <Input type="text" addonBefore="账号:" value={name} onChange={(e)=>{setName(e.target.value)}}/>
-          <Input type="password" addonBefore="密码:" />
+          <Input type="text" addonBefore="账号:" value={name} onChange={(e) => { setName(e.target.value) }} />
+          <Input type="password" addonBefore="密码:" value={password} onChange={(e) => { setPassword(e.target.value) }} />
           <Button
             type="primary"
             onClick={() => {
-              showModal();
+              axios.post('http://localhost:3000/login', {
+                username: name,
+                password: password
+              })
+                .then((res) => {
+                  if (res.status === 200) {
+                    showModal();
+                  }
+                })
+                .catch((err) => {
+                  alert("用户名或密码错误")
+                  console.log(err);
+                });
               dispatch(
                 loginUser({
                   isLogin: true,
-                  isAdmain:name==="admain"?true:false,
-                  value: {  
+                  isAdmain: name === "admain" ? true : false,
+                  value: {
                     userName: name,
                     studentId: "2019110225",
                     sex: true,
@@ -70,7 +84,55 @@ const Login = () => {
         </Space>
       </div>
     ),
-    tab2: <p>content2</p>,
+    tab2: (
+      <div>
+        <Space
+          direction="vertical"
+          size="middle"
+          style={{
+            display: "flex",
+          }}
+        >
+          <Input type="text" addonBefore="学生邮箱:" />
+          <Input type="text" addonBefore="账号:" value={name} onChange={(e) => { setName(e.target.value) }} />
+          <Input type="password" addonBefore="密码:" value={password} onChange={(e) => { setPassword(e.target.value) }} />
+          <Input type="password" addonBefore="请再次输入密码:" />
+          <Button
+            type="primary"
+            onClick={() => {
+              axios.post('http://localhost:3000/register', {
+                username: name,
+                password: password
+              })
+                .then((res) => {
+                  if (res.status === 200) {
+                    console.log(res)
+                    showModal();
+                  }
+                })
+                .catch((err) => {
+                  alert("账户已存在")
+                  console.log(err);
+                });
+
+              dispatch(
+                loginUser({
+                  isLogin: true,
+                  isAdmain: name === "admain" ? true : false,
+                  value: {
+                    userName: name,
+                    studentId: "2019110225",
+                    sex: true,
+                  },
+                })
+              );
+            }}
+          >
+            注册并登录
+          </Button>
+        </Space>
+      </div>
+    ),
   };
   const contentStyle = {
     margin: "80px 20px 20px 20px",
@@ -83,28 +145,28 @@ const Login = () => {
   return (
     <Row>
       <Col span={16}>
-      <Carousel >
-      <div>
-        <h3 style={contentStyle}>
-            <Image src="https://www.jzci.edu.cn/images/zhuye/2022-12-26d.jpg"></Image>
-        </h3>
-      </div>
-      <div>
-        <h3 style={contentStyle}>
-        <Image src="https://www.jzci.edu.cn/images/zhuye/2020-4-29b.jpg"></Image>
-        </h3>
-      </div>
-      <div>
-        <h3 style={contentStyle}>
-        <Image src="https://www.jzci.edu.cn/images/zhuye/2020-4-29b.jpg"></Image>
-        </h3>
-      </div>
-      <div>
-        <h3 style={contentStyle}>
-        <Image src="https://www.jzci.edu.cn/images/zhuye/2020-4-29b.jpg"></Image>
-        </h3>
-      </div>
-    </Carousel>
+        <Carousel >
+          <div>
+            <h3 style={contentStyle}>
+              <Image src="https://www.jzci.edu.cn/images/zhuye/2022-12-26d.jpg"></Image>
+            </h3>
+          </div>
+          <div>
+            <h3 style={contentStyle}>
+              <Image src="https://www.jzci.edu.cn/images/zhuye/2020-4-29b.jpg"></Image>
+            </h3>
+          </div>
+          <div>
+            <h3 style={contentStyle}>
+              <Image src="https://www.jzci.edu.cn/images/zhuye/2020-4-29b.jpg"></Image>
+            </h3>
+          </div>
+          <div>
+            <h3 style={contentStyle}>
+              <Image src="https://www.jzci.edu.cn/images/zhuye/2020-4-29b.jpg"></Image>
+            </h3>
+          </div>
+        </Carousel>
       </Col>
       <Col span={8}>
         <Card
@@ -113,8 +175,8 @@ const Login = () => {
             top: "80px",
             width: "80%",
           }}
-          title="welcome to my project"
-          extra={<a href="#">More</a>}
+          title="欢迎来到信息学院教室预约系统"
+          extra={<a href="#">更多</a>}
           tabList={tabList}
           activeTabKey={activeTabKey1}
           onTabChange={onTab1Change}

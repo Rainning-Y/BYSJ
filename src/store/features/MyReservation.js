@@ -14,11 +14,8 @@ export const myReservation = createSlice({
   reducers: {
     // 定义一个加的方法
     addReservation: (state, { payload }) => {
-      
-     
       state[`${payload.value.id}`]=payload.value
       console.log("预约列表store:",state.value,state.list)
-      
     },
     // 定义一个减的方法
     decrement: (state) => {
